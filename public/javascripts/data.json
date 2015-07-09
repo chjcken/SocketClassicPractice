@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Cristiano Ronaldo",
+    "dob": "05 Febr 1985",
+    "nationality": "Portugal",
+    "club": "Real Madrid",
+    "position": "Versatile Forward",
+    "height": "1m85",
+    "weight": "83kg"
+  },
+  {
+    "name": "Lionel Messi",
+    "dob": "24 June 1987",
+    "nationality": "Argentina",
+    "club": "Barcelona",
+    "position": "Versatile Forward",
+    "height": "1m69",
+    "weight": "67kg"
+  },
+  {
+    "name": "Wayne Rooney",
+    "dob": "24 Octo 1985",
+    "nationality": "England",
+    "club": "Manchester United",
+    "position": "Centre Forward",
+    "height": "1m76",
+    "weight": "83kg"
+  },
+  {
+    "name": "Eden Hazard",
+    "dob": "07 Janu 1991",
+    "nationality": "Belgium",
+    "club": "Chelsea",
+    "position": "Versatile Offensive Midfielder",
+    "height": "1m70",
+    "weight": "69kg"
+  },
+  {
+    "name": "Alexis Sanchez",
+    "dob": "19 Dece 1988",
+    "nationality": "Chile",
+    "club": "Arsenal",
+    "position": "Right/Centre Forward",
+    "height": "1m71",
+    "weight": "70kg"
+  },
+  {
+    "name": "Philippe Coutinho",
+    "dob": "12 June 1992",
+    "nationality": "Brazil",
+    "club": "Liverpool",
+    "position": "Versatile Offensive Midfielder",
+    "height": "1m71",
+    "weight": "70kg"
+  }
+
+
+]

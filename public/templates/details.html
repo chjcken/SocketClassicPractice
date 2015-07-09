@@ -1,0 +1,32 @@
+<div class="col-md-12">
+    <h1 class="text-center">Player Details</h1>
+</div>
+<div class="col-md-12 col-md-offset-2 center-block player-details">
+    <div class="col-md-12">
+        <img ng-src="images/{{players.indexOf(player)}}.jpg" alt="Photo of {{player.name}}" class="img-thumbnail img-responsive center-block player-details-img">
+        <h2 class="text-center text-capitalize">{{player.name}}</h2>
+        <div class="text-center">
+            <p style="font-size: medium">
+                <span style="font-weight: bold">Date Of Birth: </span>{{player.dob}}
+            </p>
+            <p style="font-size: medium">
+                <span style="font-weight: bold">Nationality: </span>{{player.nationality}}
+            </p>
+            <p style="font-size: medium">
+                <span style="font-weight: bold">Club: </span>{{player.club}}
+            </p>
+            <p style="font-size: medium">
+                <span style="font-weight: bold">Position: </span>{{player.position}}
+            </p>
+            <p style="font-size: medium">
+                <span style="font-weight: bold">Height: </span>{{player.height}}
+            </p>
+            <p style="font-size: medium">
+                <span style="font-weight: bold">Weight: </span>{{player.weight}}
+            </p>
+            <a class="btn btn-primary" href="/">
+                <i class="fa fa-arrow-circle-left"></i> Back to homepage
+            </a>
+        </div>
+    </div>
+</div>
