@@ -1,1 +1,8 @@
 Git repo for Webtech's Fresher
+
+** SonLT branch README **
+* To run the project:
+- Navigate to the project folder
+- Install all the NodeJS packages: `npm install`
+- Start the NodeJS server: `npm start`
+- Open a web browser and navigate to localhost:3000
