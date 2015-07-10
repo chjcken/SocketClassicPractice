@@ -20,7 +20,6 @@ public class SenderThread extends Thread {
             this.name = name;
             try {
                     this.ioHelper = new IOHelper(clientSocket.getInputStream(), clientSocket.getOutputStream());
-                    //System.out.println("new ioHelper done!");
             } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -43,11 +42,10 @@ public class SenderThread extends Thread {
 
         //get ok tag from server
         msg = ioHelper.read();
-        System.err.println("[WAIT OK MSG FROM SERVER]\t" + msg);
+        //System.err.println("[WAIT OK MSG FROM SERVER]\t" + msg);
         if (msg.equals(MessageTag.OK)){//server ready -- start sending code                    
             while (!done){
                 //send code
-                //System.out.println("[code to send]\t" + code);
                 ioHelper.write(code);
                 //then wait server answer
                 msg = ioHelper.read();
@@ -58,18 +56,19 @@ public class SenderThread extends Thread {
                 }
                 else if (msg.equals(MessageTag.STOP)){
                     //enough code -- stop
-                    System.out.println("Server say Stop");
+                    //System.out.println("Server say Stop");
                     done = true;
                 }
                 else {
                         //something wrong                                    
-                        System.err.println(TAG + "error while sending code");
+                        System.err.println(TAG + "error while sending code in thread: " + name);
                         this.executingTime = -1;
                         break;
                 }
             }
             //DONE! 
-            this.executingTime = System.currentTimeMillis() - now;
+            if (this.executingTime != -1)
+            	this.executingTime = System.currentTimeMillis() - now;
             }
             
             else { //TAG != OK --- error -- server doesnt accept sending 

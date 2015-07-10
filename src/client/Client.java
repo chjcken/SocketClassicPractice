@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import socketio.IOHelper;
 import socketio.MessageTag;
 
 /**
@@ -36,24 +35,6 @@ public class Client {
         for (int i = 0; i<threadNum; ++i){
 	        try {
 	            
-//	            Socket clientSocket;
-//	            clientSocket = new Socket(IPAddress, port);
-//	            IOHelper  ioHelper = new IOHelper(clientSocket.getInputStream(),
-//	                                        clientSocket.getOutputStream());
-//	            
-//	            String msg;
-//	            
-//	            msg = ioHelper.read();//this should be hello from server
-//	            if (msg.equals(MessageTag.HELLO)){
-//	            	//start thread to send code
-//	            	SenderThread senderThread = new SenderThread(clientSocket, String.valueOf(i), MessageTag.generateCode());
-//	            	senderThread.start();
-//	            	listThread.add(senderThread);
-//	                
-//	            }
-//	            else {//something wrong -- exit
-//	            	clientSocket.close();
-//	            }
                     SenderThread senderThread = new SenderThread(new Socket(IPAddress, port), 
                                                 String.valueOf(i), MessageTag.generateCode(100));
                     senderThread.start();
@@ -68,7 +49,7 @@ public class Client {
         //wait for all threads done their job
         for (SenderThread thread : listThread){
             try {
-                            thread.join();
+                    thread.join();
             } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -81,16 +62,16 @@ public class Client {
         int nThreadSuccess = 0;
         for (SenderThread thread : listThread){
             long time = thread.getExecutingTime();
-            if (time > -1){
-        	totalTime += time;
+            if (time > -1){ // time == -1 means error
+            	totalTime += time;
                 nThreadSuccess++;
             }
         }
         long averageExecutingTime = nThreadSuccess != 0? totalTime/nThreadSuccess : 0;
         
         System.out.println("Number of threads send code successfully: " + nThreadSuccess + "/" + threadNum);
-        System.out.println("Real time executing = " + realExecutingTime + "ms");
         System.out.println("Average time executing per thread = " + averageExecutingTime + "ms");
+        System.out.println("Total time executing " + threadNum + " threads = " + realExecutingTime + "ms");
         
     }
 }
