@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		// this is our abstract class
+		var AbstractClass = function () {
+			if (this.constructor === AbstractClass) {
+				throw new Error('Cannot instanciate abstract class');
+			}
+		};
+
+		// this is our abstract method
+		AbstractClass.prototype.someMethod = function () {
+			throw new Error('Cannot call abstract method')
+		};
+
+		// this is our concrete class
+		var ConcreteClass = function () {
+			AbstractClass.apply(this, arguments);
+		};
+
+		// let's inherit from abstract class
+		ConcreteClass.prototype = Object.create(AbstractClass.prototype, {
+			'constructor': ConcreteClass
+		});
+
+		var obj;
+
+		try {
+		  obj = new AbstractClass(); // throws
+		} catch (e) {
+		  console.log(e); // outputs 'Cannot instanciate abstract class'
+		}
+
+		obj = new ConcreteClass();
+
+		try {
+		  obj.someMethod(); // throws
+		} catch (e) {
+		  console.log(e); // outputs 'Cannot call abstract method'
+		}
+
+		// let's define our concrete method
+		ConcreteClass.prototype.someMethod = function () {
+			console.log('Concrete Method');
+		};
+
+		// N.B this will provide the method to existing instances as they the same prototype
+
+		obj.someMethod(); // outputs 'Concrete Method'
+
+
+	</script>
+</body>
+</html>

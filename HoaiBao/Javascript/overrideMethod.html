@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		function Widget() {
+			this.id = new Date().getTime();
+		}
+		Widget.prototype.load = function(args) {
+			alert( 'parent load' );
+		};
+
+		SpecialWidget = function(){};
+
+	   // Make the prototype of SpecialWidget an instance of Widget
+	   var proto = SpecialWidget.prototype = new Widget;
+
+	   // Give the prototype a function that references the "load" from Widget
+	   proto.parent_load = proto.load;
+
+	   // Give SpecialWidget its own "load" that first calls the parent_load
+	   proto.load = function( args ) {
+	   	this.parent_load( args );
+	   	alert( 'special load' );
+	   };
+
+	   var inst = new SpecialWidget;
+
+	   var pa = new Widget;
+	   
+	   inst.load();
+	</script>
+</body>
+</html>

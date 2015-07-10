@@ -3,6 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	 <style> 
+        .pass:before { 
+            content: 'PASS: '; 
+            color:  blue; 
+            font-weight: bold; 
+        } 
+  
+        .fail:before { 
+            content: 'FAIL: '; 
+            color: red; 
+            font-weight: bold; 
+  
+        } 
+    </style> 
 </head>
 <body>
 		<ul id="output"></ul> 
@@ -45,7 +59,6 @@
 		// Set the "constructor" property to refer to Student
 		Student.prototype.constructor = Student;
 
-2
 		// override the "introduction" method
 		Student.prototype.introduction= function(){
 		  alert("Hi, I am " + this.fullName + ". I am a student of " + this.school + ", I study "+ this.courses +".");
