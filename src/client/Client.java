@@ -36,24 +36,29 @@ public class Client {
         for (int i = 0; i<threadNum; ++i){
 	        try {
 	            
-	            Socket clientSocket;
-	            clientSocket = new Socket(IPAddress, port);
-	            IOHelper  ioHelper = new IOHelper(clientSocket.getInputStream(),
-	                                        clientSocket.getOutputStream());
-	            
-	            String msg = "";
-	            
-	            msg = ioHelper.read();//this should be hello from server
-	            if (msg.equals(MessageTag.HELLO)){
-	            	//start thread to send code
-	            	SenderThread senderThread = new SenderThread(clientSocket, String.valueOf(i), MessageTag.generateCode());
-	            	senderThread.start();
-	            	listThread.add(senderThread);
-	                
-	            }
-	            else {//something wrong -- exit
-	            	clientSocket.close();
-	            }
+//	            Socket clientSocket;
+//	            clientSocket = new Socket(IPAddress, port);
+//	            IOHelper  ioHelper = new IOHelper(clientSocket.getInputStream(),
+//	                                        clientSocket.getOutputStream());
+//	            
+//	            String msg;
+//	            
+//	            msg = ioHelper.read();//this should be hello from server
+//	            if (msg.equals(MessageTag.HELLO)){
+//	            	//start thread to send code
+//	            	SenderThread senderThread = new SenderThread(clientSocket, String.valueOf(i), MessageTag.generateCode());
+//	            	senderThread.start();
+//	            	listThread.add(senderThread);
+//	                
+//	            }
+//	            else {//something wrong -- exit
+//	            	clientSocket.close();
+//	            }
+                    SenderThread senderThread = new SenderThread(new Socket(IPAddress, port), 
+                                                String.valueOf(i), MessageTag.generateCode(100));
+                    senderThread.start();
+                    listThread.add(senderThread);                   
+                    
 	            
 	        } catch (IOException ex) {
 	            System.err.println("IO exception");
@@ -62,21 +67,28 @@ public class Client {
         
         //wait for all threads done their job
         for (SenderThread thread : listThread){
-        	try {
-				thread.join();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            try {
+                            thread.join();
+            } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
         }
         
+        //calculate time executing
         long realExecutingTime = System.currentTimeMillis() - now;
         long totalTime = 0;
+        int nThreadSuccess = 0;
         for (SenderThread thread : listThread){
-        	totalTime += thread.getExecutingTime();
+            long time = thread.getExecutingTime();
+            if (time > -1){
+        	totalTime += time;
+                nThreadSuccess++;
+            }
         }
-        long averageExecutingTime = totalTime/threadNum;
+        long averageExecutingTime = nThreadSuccess != 0? totalTime/nThreadSuccess : 0;
         
+        System.out.println("Number of threads send code successfully: " + nThreadSuccess + "/" + threadNum);
         System.out.println("Real time executing = " + realExecutingTime + "ms");
         System.out.println("Average time executing per thread = " + averageExecutingTime + "ms");
         

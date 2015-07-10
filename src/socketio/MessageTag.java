@@ -12,22 +12,20 @@ import java.util.Random;
  * @author datbt
  */
 public class MessageTag {
-    public static String HELLO = "HELLO";
     public static String USERNAME = "USERNAME";
     public static String ERROR = "ERROR";
     public static String NEXT = "NEXT";
     public static String STOP = "STOP";
     public static String OK = "OK";
-    //public static String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
-    public static String generateCode(){
+    public static String generateCode(int nChar){
     	String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		Random rand = new Random();
-		String s = "";
-		for (int i = 0; i<99; ++i){
-			s += ALPHABET.charAt(rand.nextInt(100)%52);
-		}
-		
-		return s;
+            Random rand = new Random();
+            String s = "";
+            for (int i = 1; i<nChar; ++i){
+                    s += ALPHABET.charAt(rand.nextInt(100)%52);
+            }
+
+            return s;
 	}
 }

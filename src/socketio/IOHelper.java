@@ -5,7 +5,6 @@
  */
 package socketio;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -54,32 +53,45 @@ public class IOHelper {
                 if (is.available() == 0){
                     result += new String(baos.toByteArray()).trim();
                     baos.reset();
-                    return result;
+                    break;
                 }
                 
             } catch (IOException ex) {
                 System.err.println(TAG + "read() error: " + ex.getMessage());
+                result = "";
             }
         }
         return result;
     }
     
-    public String read2(){
-        String result = "";
-        BufferedInputStream bis = new BufferedInputStream(is);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    public void close(){
         try {
-            int r = bis.read();
-            while (r != -1){
-                byte b = (byte)r;
-                baos.write(b);
-                r = bis.read();
-            }
-            result += new String(baos.toByteArray()).trim();
+            if (is != null)            
+                is.close();
+            if (dot != null)
+                dot.close();
+            
         } catch (IOException ex) {
-            System.err.println(TAG + "read2() error: " + ex.getMessage());
+            //Logger.getLogger(IOHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return result;
     }
+    
+//    public String read2(){
+//        String result = "";
+//        BufferedInputStream bis = new BufferedInputStream(is);
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        try {
+//            int r = bis.read();
+//            while (r != -1){
+//                byte b = (byte)r;
+//                baos.write(b);
+//                r = bis.read();
+//            }
+//            result += new String(baos.toByteArray()).trim();
+//        } catch (IOException ex) {
+//            System.err.println(TAG + "read2() error: " + ex.getMessage());
+//        }
+//        
+//        return result;
+//    }
 }
