@@ -50,7 +50,7 @@ public class SenderThread extends Thread {
                             //System.out.println("[code to send]\t" + code);
 				ioHelper.write(code);
 				//then wait server answer
-				msg = ioHelper.read2();
+				msg = ioHelper.read();
                                 //System.err.println("[MSG FROM SERVER]\t" + msg);
 				if (msg.equals(MessageTag.NEXT)){
                                     //continue send code
