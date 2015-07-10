@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+
+
+
+function Car( options ) {
+ 
+  // some defaults
+  this.doors = options.doors || 4;
+  this.state = options.state || "brand new";
+  this.color = options.color || "silver";
+ 
+}
+
+
+function Apple (type) {
+	 function privateMethod(){
+	        console.log( "I am private" );
+	    }
+    this.type = type;
+    this.color = "red";
+    this.getInfo = getAppleInfo;
+    return 10;
+}
+
+function getAppleInfo() {
+    return this.color + ' ' + this.type + ' apple';
+}
+
+var apple = new Apple('macintosh');
+apple.color = "reddish";
+alert(apple.color);
+
+
+
+
+
+
+	</script>
+</body>
+</html>

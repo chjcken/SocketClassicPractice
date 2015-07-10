@@ -1,0 +1,29 @@
+<html>
+<head>
+   <script src= "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+</head>
+<body>
+
+
+    <div ng-app="aa" ng-controller="NamesController as aa">
+        <h1>List of Names</h1>
+        <div ng-repeat="_name in names">
+            <p>{{_name.username}}</p>
+        </div>
+    </div>
+    <script>
+     
+
+
+       var namesModule = angular.module("aa", []);
+       namesModule.controller("NamesController",
+        function($scope) {
+            $scope.names = [
+            {username: "Nitin"},
+            {username: "Mukesh"}
+            ];
+        }
+        );
+   </script>
+</body>
+</html>
