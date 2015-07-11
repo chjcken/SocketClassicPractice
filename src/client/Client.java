@@ -42,7 +42,7 @@ public class Client {
                     
 	            
 	        } catch (IOException ex) {
-	            System.err.println("IO exception");
+	            System.err.println("Error while connecting to server!");
 	        }    	
         }
         

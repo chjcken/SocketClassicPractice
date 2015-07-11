@@ -18,18 +18,18 @@ import java.io.OutputStream;
 public class IOHelper {
     private final String TAG = "[IOHelper]\t";
     private final InputStream is;
-    private final DataOutputStream dot;
+    private final DataOutputStream dos;
     
 
-    public IOHelper(InputStream is, OutputStream dot) {
+    public IOHelper(InputStream is, OutputStream os) {
         this.is = is;
-        this.dot = new DataOutputStream(dot);
+        this.dos = new DataOutputStream(os);
     }
     
     //write msg
     public boolean write(String msg){
         try {
-            this.dot.writeUTF(msg);
+            this.dos.writeUTF(msg);
         } catch (IOException ex) {
             System.err.println(TAG + "write() error: " + ex.getMessage());
             return false;
@@ -57,8 +57,9 @@ public class IOHelper {
                 }
                 
             } catch (IOException ex) {
-                System.err.println(TAG + "read() error: " + ex.getMessage());
+                System.err.println(TAG + "read() error: " + ex.getMessage());                
                 result = "";
+                break;
             }
         }
         return result;
@@ -68,8 +69,8 @@ public class IOHelper {
         try {
             if (is != null)            
                 is.close();
-            if (dot != null)
-                dot.close();
+            if (dos != null)
+                dos.close();
             
         } catch (IOException ex) {
             //Logger.getLogger(IOHelper.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,6 +5,7 @@
  */
 package server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
@@ -19,7 +20,7 @@ public class Server {
     private static final int port = 34343;
     private final ServerSocket serverSocket;
     private final ExecutorService threadPool;
-    private final int nThread = 10;
+    private final int nThread = 16;
     
     public static int OLD_STYLE = 0;
     public static int THREAD_POOL_STYLE = 1;
@@ -33,9 +34,10 @@ public class Server {
         while (true){         
             try {
                 new Thread(new WriterHandler(serverSocket.accept())).start();
-                System.out.println("Start new thread...");
+                //System.out.println("Start new thread...");
             } catch (IOException ex) {
                 //Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            	System.err.println("Error while connecting with client!");
             }
         }
     }
@@ -47,28 +49,31 @@ public class Server {
             }
         } catch (IOException ex) {
             //Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        	System.err.println("Error while connecting with client!");
         }
         
     }
     
     public void start(int serverType){        
-        System.out.println("Server is running...");
+        System.out.println((serverType == 0 ?"Old style":"Thread pool style") + " server is running...");
         if (serverType == Server.OLD_STYLE){
             startOldMultiThreadStyle();
         }
         else {
             startThreadPoolMultiThreadStyle();
-        }
-        
+        }        
     }
     
     public static void main(String[] args) throws IOException {
-        
+    	//create folder to contain written file
+    	new File("result").mkdir();
+
+        int t = args.length !=0? Integer.parseInt(args[0]) : 0;
         try {
 			Server server = new Server();
-			server.start(Server.THREAD_POOL_STYLE);
+			server.start(t);
 		} catch (IOException e) {
-			System.err.println("Error while starting server! Maybe port has been used!");
+			System.err.println("Error while starting server! Maybe port has already been used!");
 		}
     }
 }
