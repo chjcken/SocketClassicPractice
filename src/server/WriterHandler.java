@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.BlockingQueue;
+
 import socketio.IOHelper;
 import socketio.MessageTag;
 
@@ -22,11 +24,14 @@ public class WriterHandler implements Runnable{
     private IOHelper ioHelper;
     private int lineNum = 100;
     private String NEWLINE = "\n";
+    private String TAB = "\t";
     private int codeLength = 100;
     private FileWriter fw;
     private BufferedWriter bw;
+    private BlockingQueue<String> blockingQueue;
     
-    public WriterHandler(Socket socket){
+    public WriterHandler(Socket socket, BlockingQueue<String> queue){
+    	this.blockingQueue = queue;
         this.connectionSocket = socket;
         try {
             this.ioHelper = new IOHelper(connectionSocket.getInputStream(),
@@ -48,14 +53,22 @@ public class WriterHandler implements Runnable{
 
         if (tag.equals(MessageTag.USERNAME)){//if tag == username tag
             int counter = 0;
-            File file = new File("result/"+ name +".txt");
+            
             
             try {
-                if (!file.exists())
-                    file.createNewFile();
-
-                fw = new FileWriter(file.getAbsoluteFile());
-                bw = new BufferedWriter(fw);
+            	if (blockingQueue == null){
+            		/*if using blocking queue, writing code to file will be taken by WriteToFile runnable
+            		 * this runnable's task is just read code from client and put to queue
+            		 * else we have to write code to file by ourself 
+            		 * so we have to initiate buffered writer to write code to file
+            		 * */
+	            	File file = new File("result/"+ name +".txt");
+	                if (!file.exists())
+	                    file.createNewFile();
+	
+	                fw = new FileWriter(file.getAbsoluteFile());
+	                bw = new BufferedWriter(fw);
+                }
 
                 //send ok msg to notice client to start send code
                 ioHelper.write(MessageTag.OK);
@@ -65,7 +78,12 @@ public class WriterHandler implements Runnable{
                     msg = ioHelper.read();
                     //System.out.println("[MSG FROM CLIENT]\t" + msg);
                     if (msg.length() == codeLength){//right code
-                        bw.write(msg + NEWLINE);
+                    	if (blockingQueue == null){//we will write code to file if no blocking queue
+                    		bw.write(msg + NEWLINE);
+                    	}
+                    	else {//we just put code to queue and writing to file task is handle by other
+                    		blockingQueue.put(name + TAB + msg + NEWLINE); // we add a name prefix to easy to know this code come from which thread
+                    	}
                         counter++;
 
                         if (counter < lineNum){
@@ -87,7 +105,7 @@ public class WriterHandler implements Runnable{
 
                 //DONE
 
-            } catch (IOException ex) {
+            } catch (IOException | InterruptedException ex) {
                 //Logger.getLogger(WriterThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

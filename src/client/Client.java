@@ -19,7 +19,7 @@ public class Client {
 
 	private static final String IPAddress = "localhost";
     private static final int port = 34343;
-    private static final int threadNum = 100;
+    private static final int threadNum = 1000;
     
     public void _wait(long milisecond){
         long now = System.currentTimeMillis();
