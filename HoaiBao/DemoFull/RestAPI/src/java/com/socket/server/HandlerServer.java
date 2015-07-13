@@ -34,28 +34,22 @@ public class HandlerServer extends Thread {
     @Override
     public void run() {
         int fileCount = 0;
-        while (true) {
+        String data = readString();
+        while (fileCount < 5) {
             try {
-                String data = readString();
-                if (data.equals("STOP") == true) {
-                    stopService();
-                    break;
-                }
-                if (data.equals("OK") == true) {
-                    continue;
-                }
                 FileWriter fileWriter = new FileWriter(new File("client_" + clientID + "_" + fileCount + ".txt"));
                 for (int i = 0; i < 1000; i++) {
                     fileWriter.write(data + "\n");
                 }
                 fileWriter.close();
                 fileCount++;
-                sendString("NEXT");
+               
             } catch (Exception ex) {
-                stopService();
-            }
-
+                ex.printStackTrace();
+            } 
         }
+        sendString("STOP");
+        stopService();
     }
 
     public void stopService() {

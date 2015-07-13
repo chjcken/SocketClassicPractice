@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Dung
+ * @author Bao
  */
 public class Client extends Thread {
 
@@ -92,19 +92,12 @@ public class Client extends Thread {
     public void run() {
         int i = 0;
         long timeStart = System.currentTimeMillis();
-        while (i < clientID) {
-            sendString(message);
-            if (i > clientID) {
-                sendString("OK");
-            }
-            i++;
-            readString();
-        }
+        sendString(message);
+        readString();
         long timeEnd = System.currentTimeMillis();
         String messageOut = "client " + clientID + " done with " + clientID + " times in " + (timeEnd - timeStart) + "ms";
         System.out.println(messageOut);
         dsKQ.add(messageOut);
-        sendString("STOP");
     }
 
     public static int RunClient() throws InterruptedException {
