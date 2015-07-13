@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	 <style> 
+        .pass:before { 
+            content: 'PASS: '; 
+            color:  blue; 
+            font-weight: bold; 
+        } 
+  
+        .fail:before { 
+            content: 'FAIL: '; 
+            color: red; 
+            font-weight: bold; 
+  
+        } 
+    </style> 
+</head>
+<body>
+	<ul id="output"></ul> 
+	<script type="text/javascript">
+
+		var output = document.getElementById('output'); 
+  
+		function assert(outcome,description) { 
+		    var li = document.createElement('li'); 
+		    li.className = outcome ? 'pass' : 'fail'; 
+		    li.appendChild(document.createTextNode(description));
+		    output.appendChild(li);
+		}
+
+		// test 1
+		//this will be our prototype
+		var Base = function(){
+		  this.echo = function(){
+		    console.log('I am Mr. ' + this.name);
+		  }
+		}
+
+		//here is a "subclass"
+		var SubA = function(name) {
+		  this.name = name + ' A';
+		}
+
+		SubA.prototype = new Base();
+
+
+		//here is another "subclass"
+		var SubB = function(name) {
+		  this.name = name + ' B';
+		}
+		SubB.prototype = new Base();
+
+		//now instances
+		var a = new SubA('John');
+		a.echo(); // I am Mr. John A
+
+
+		var b = new SubB('John');
+		b.echo(); // I am Mr. John B
+
+
+		//let's try changing a property of one of the prototypes for testing purposes
+		SubB.prototype.echo = function(){
+		  console.log('I am Mr. ' + this.name + ' and I hate you');
+		}
+
+		a.echo(); // I am Mr. John A
+		b.echo(); // I am Mr. John B and I hate you
+
+
+		//If we wanted SubA and SubB to share the same prototype, we could do:
+		
+		
+
+
+
+		// test 2
+		function Person(){} 
+		Person.prototype.dance = function(){}; 
+		 
+		function Ninja(){} 
+		Ninja.prototype.dance = function(){alert("text");}; 
+		// Achieve similar, but non-inheritable, results 
+		Ninja.prototype = Person.prototype; 
+		Ninja.prototype = { dance: Person.prototype.dance }; 
+		 
+		assert( (new Ninja()) instanceof Person, "Will fail with bad prototype chain." ); 
+		 
+		// Only this maintains the prototype chain 
+		Ninja.prototype = new Person(); 
+		 
+		var ninja = new Ninja(); 
+		ninja.dance();
+		assert( ninja instanceof Ninja, "ninja receives functionality from the Ninja prototype" ); 
+		assert( ninja instanceof Person, "... and the Person prototype" ); 
+		assert( ninja instanceof Object, "... and the Object prototype" );
+	</script>
+</body>
+</html>
