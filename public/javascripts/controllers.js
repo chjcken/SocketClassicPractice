@@ -1,6 +1,6 @@
-var appControllers = angular.module('appControllers', []);
+var controllersModule = angular.module('myApp.Controllers', []);
 
-appControllers.controller('ListController', ['$scope', '$http', function($scope, $http){
+controllersModule.controller('ListController', ['$scope', '$http', function($scope, $http){
     $http.get('javascripts/data.json').success(function(data) {
         $scope.players = data;
         $scope.players.forEach(function(player){
@@ -19,7 +19,7 @@ appControllers.controller('ListController', ['$scope', '$http', function($scope,
     };
 }]);
 
-appControllers.controller('DetailsController', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+controllersModule.controller('DetailsController', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
     $http.get('javascripts/data.json').success(function(data) {
         $scope.players = data;
         $scope.player = $scope.players[Number($routeParams.itemId)];
