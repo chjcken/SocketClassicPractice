@@ -29,7 +29,8 @@ public class IOHelper {
     //write msg
     public boolean write(String msg){
         try {
-            this.dos.writeUTF(msg);
+            //this.dos.writeUTF(msg);
+            this.dos.write(msg.getBytes());
         } catch (IOException ex) {
             System.err.println(TAG + "write() error: " + ex.getMessage());
             return false;

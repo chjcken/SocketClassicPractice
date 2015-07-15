@@ -20,12 +20,12 @@ public class MessageTag {
     
     public static String generateCode(int nChar){
     	String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            Random rand = new Random();
-            String s = "";
-            for (int i = 1; i<nChar; ++i){
-                    s += ALPHABET.charAt(rand.nextInt(100)%52);
-            }
+        Random rand = new Random();
+        String s = "";
+        for (int i = 0; i<nChar; ++i){
+                s += ALPHABET.charAt(rand.nextInt(1000)%ALPHABET.length());
+        }
 
-            return s;
-	}
+        return s;
+    }
 }

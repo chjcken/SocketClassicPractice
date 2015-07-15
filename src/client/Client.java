@@ -17,9 +17,9 @@ import socketio.MessageTag;
  */
 public class Client {
 
-	private static final String IPAddress = "localhost";
+    private static final String IPAddress = "localhost";
     private static final int port = 34343;
-    private static final int threadNum = 1000;
+    private static final int threadNum = 32;
     
     public void _wait(long milisecond){
         long now = System.currentTimeMillis();

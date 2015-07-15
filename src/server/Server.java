@@ -60,7 +60,7 @@ public class Server {
     
     public void start(int serverType){        
         System.out.println((serverType == 0 ?"Old style":"Thread pool style") + " server is running...");
-        if (serverType == Server.OLD_STYLE){
+        if (serverType%2 == Server.OLD_STYLE){
             startOldMultiThreadStyle();
         }
         else {
@@ -78,7 +78,7 @@ public class Server {
     	new Thread(new WriteToFileHandler(blockingQueue)).start();
     	
     	//start service
-    	if (serverType == Server.OLD_STYLE){
+    	if (serverType%2 == Server.OLD_STYLE){
             startOldMultiThreadStyle();
         }
         else {
@@ -98,11 +98,13 @@ public class Server {
         	System.err.println("Wrong format parameter! Default old style multi thread server will be started.");
         }
         try {
-			Server server = new Server();
-			server.start(serverType);
-			//server.startWithBlockingQueue(serverType);
-		} catch (IOException e) {
-			System.err.println("Error while starting server! Maybe port has already been used!");
-		}
+                Server server = new Server();
+                if (serverType < 5)
+                    server.start(serverType);
+                else
+                    server.startWithBlockingQueue(serverType);
+        } catch (IOException e) {
+                System.err.println("Error while starting server! Maybe port has already been used!");
+        }
     }
 }
