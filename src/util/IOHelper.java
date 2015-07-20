@@ -15,38 +15,35 @@ import java.nio.channels.SocketChannel;
  */
 public class IOHelper {
     private final String TAG = "[IOHelper]\t";
-    private final SocketChannel socketChanel;
-    public IOHelper(SocketChannel socketChannel){
-        this.socketChanel = socketChannel;
+    //private final SocketChannel socketChanel;
+    public IOHelper(){
+        //this.socketChanel = socketChannel;
        
     }
     
-    public void write(String msg){
+    public void write(String msg, SocketChannel socketChannel){
         try {
             ByteBuffer buf = ByteBuffer.wrap(msg.getBytes());//ByteBuffer.allocate(msg.length());
             //buf.clear();
             //buf.put(msg.getBytes());
             //buf.flip();
-            while (buf.hasRemaining()){ 
-                socketChanel.write(buf);
-             }
+            //while (buf.hasRemaining()){ 
+                socketChannel.write(buf);
+             //}
+            buf.clear();
+            
         } catch (IOException|NullPointerException ex) {
             System.err.println(TAG + "error in write(): " + ex.getMessage());
         }
         
     }
     
-    public String read(){
+    public String read(SocketChannel socketChannel){
         String result = "";
-        
         ByteBuffer buf = ByteBuffer.allocate(128);
         try {            
-            int nByte = socketChanel.read(buf);
-            if (nByte != -1){
-                //result = decoder.decode(buf).toString();
-                result = new String (buf.array());                
-            }      
-            
+        	socketChannel.read(buf);        
+            result = new String(buf.array()).trim();     
         } catch (IOException ex) {
             result = "";
             System.err.println(TAG + "error in read(): " + ex.getMessage());
