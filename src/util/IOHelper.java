@@ -15,22 +15,12 @@ import java.nio.channels.SocketChannel;
  */
 public class IOHelper {
     private final String TAG = "[IOHelper]\t";
-    //private final SocketChannel socketChanel;
-    public IOHelper(){
-        //this.socketChanel = socketChannel;
-       
-    }
     
     public void write(String msg, SocketChannel socketChannel){
         try {
-            ByteBuffer buf = ByteBuffer.wrap(msg.getBytes());//ByteBuffer.allocate(msg.length());
-            //buf.clear();
-            //buf.put(msg.getBytes());
-            //buf.flip();
-            //while (buf.hasRemaining()){ 
-                socketChannel.write(buf);
-             //}
-            buf.clear();
+            ByteBuffer writeBuf = ByteBuffer.wrap(msg.getBytes());
+            socketChannel.write(writeBuf);
+            writeBuf.clear();
             
         } catch (IOException|NullPointerException ex) {
             System.err.println(TAG + "error in write(): " + ex.getMessage());
@@ -39,11 +29,11 @@ public class IOHelper {
     }
     
     public String read(SocketChannel socketChannel){
-        String result = "";
-        ByteBuffer buf = ByteBuffer.allocate(128);
+        String result;
+        ByteBuffer readBuf = ByteBuffer.allocate(128);
         try {            
-        	socketChannel.read(buf);        
-            result = new String(buf.array()).trim();     
+            socketChannel.read(readBuf);        
+            result = new String(readBuf.array()).trim();     
         } catch (IOException ex) {
             result = "";
             System.err.println(TAG + "error in read(): " + ex.getMessage());
